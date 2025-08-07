@@ -11,7 +11,7 @@ furnished to do so, subject to the following conditions:
 
 * Authorization is granted automatically. The absence of prompts requesting user authorization indicates that the institution or individual has already obtained valid authorization.
 * Any authorized institution or individual possesses full usage rights and all entitlements to the Software.
-  However, encapsulating this Software as a part of a web service for a third party to call through the Internet without the authorization of the author constitutes copyright infringement.
+* However, encapsulating this Software as a part of a web service for a third party to call through the Internet without the authorization of the author constitutes copyright infringement.
 * Decompiling any file within the Software Software shall be deemed infringement.
 * The user has the exclusive right of interpretation and copyright for any results generated after applying this Software.
 
