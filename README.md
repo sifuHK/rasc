@@ -18,4 +18,4 @@ Expanded beyond scorecard development to address gaps in statistics and machine 
 
 
 
-##  Please refer to version-specific READMEs for details.
+##  Please refer to version-specific documents,tutorials and samples.
