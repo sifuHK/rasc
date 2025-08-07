@@ -127,7 +127,7 @@ print(scf.datas)
 print(scf.train_optbins)
 ```
   
-#### Example of a directive file
+#### Example of a instruction file
 ```txt
 [PROJECT INST]
 model_name = Test
@@ -357,6 +357,7 @@ not_rej_clf,rej_clf,syn_train,syn_val = auto_rej_xgb(train_X,train_y,val_X,val_y
 Email: scoreconflow@gmail.com
 Email:scoreconflow@foxmail.com
 WeChat:SCF_04
+
 
 
 
