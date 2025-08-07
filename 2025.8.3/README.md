@@ -1,4 +1,4 @@
-#RASC
+# RASC
 The RASC project has made some supplements and improvements to existing statistical methods in order to provide data analysts and modelers with a more accurate and easier-to-use algorithmic framework.
 Project evolution process:
 - Phase 1 (ScoreConflow): Provides a "business instruction + unattended" scoring card model development method. The original intention of the RASC project is to provide more accurate algorithms and more labor-saving scoring card development tools.
@@ -356,3 +356,4 @@ not_rej_clf,rej_clf,syn_train,syn_val = auto_rej_xgb(train_X,train_y,val_X,val_y
 Email: scoreconflow@gmail.com
 Email:scoreconflow@foxmail.com
 WeChat:SCF_04
+
