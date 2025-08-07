@@ -2,7 +2,7 @@
 The RASC project has made some supplements and improvements to existing statistical methods in order to provide data analysts and modelers with a more accurate and easier-to-use algorithmic framework.
 Project evolution process:
 - Phase 1 (ScoreConflow): Provides a "business instruction + unattended" scoring card model development method. The original intention of the RASC project is to provide more accurate algorithms and more labor-saving scoring card development tools.
-- Phase 2 (Risk Actuarial Score Card): Based on the previous phase, a risk actuarial score card is provided to build a model by comprehensively considering user default, user profit level, and data cost.
+- Phase 2 (Risk Actuarial Score Card): Based on the previous phase, a risk actuarial score card is provided to build a model by comprehensively considering user default, user profit level, and data cost.  
 Phase 3 (Risk Actuarial Statistics): This phase goes beyond scorecard development. It aims to improve the areas where statistics and machine learning fall short in actual risk measurement. Building on the previous phase, it adds features such as XGB automatic parameter search, high-dimensional stratified sampling, interpolation of mixed data types, and rejection inference.  
 
 ## Resources
@@ -357,6 +357,7 @@ not_rej_clf,rej_clf,syn_train,syn_val = auto_rej_xgb(train_X,train_y,val_X,val_y
 Email: scoreconflow@gmail.com
 Email:scoreconflow@foxmail.com
 WeChat:SCF_04
+
 
 
 
