@@ -5,8 +5,8 @@ Project evolution process:
 - Phase 2 (Risk Actuarial Score Card): Based on the previous phase, a risk actuarial score card is provided to build a model by comprehensively considering user default, user profit level, and data cost.
 Phase 3 (Risk Actuarial Statistics): This phase goes beyond scorecard development. It aims to improve the areas where statistics and machine learning fall short in actual risk measurement. Building on the previous phase, it adds features such as XGB automatic parameter search, high-dimensional stratified sampling, interpolation of mixed data types, and rejection inference.
 
-[English Documents & Sample (Version = 2025.8.3)](https://github.com/sifuHK/rasc/tree/main/2025.8.3)  
-[Chinese documentation and examples (version = 2025.8.3)](https://gitee.com/sifuHK/rasc/tree/master/2025.8.3)  
+[English Documents,Tutorials and Samples (Version = 2025.8.3)](https://github.com/sifuHK/rasc/tree/main/2025.8.3)   
+[中文文档、教程和示例 (版本 = 2025.8.3)](https://gitee.com/sifuHK/rasc/tree/master/2025.8.3)  
 
 ## Install
 pip install rascpy
@@ -15,7 +15,7 @@ pip install rascpy
 Its main functions include:
 1. Provide binning algorithms that support monotonic or U-shaped constraints.
 1. In addition to user-specified constraints, RASC can also automatically identify constraints (monotonic or U-shaped) applicable to the data based on the training and validation sets.
-1. Can handle multiple special values and null values at the same time.
+1. Can handle multiple special values and None values at the same time.
 1. Provides a more accurate binning algorithm, resulting in a higher IV. Mathematically, this set of nodes is proven to be the global optimal node, regardless of constraints or even for categorical variables.
 1. Provides Python's two-way stepwise regression algorithm (including logistic regression and linear regression), and supports multiple constraints, such as coefficient signs, P-values, group variable number limits, and other variable screening conditions.
 1. Provides a bidirectional stepwise regression algorithm with actuarial capabilities. This algorithm uses company profits as part of a loss function that considers the model's prediction accuracy, individual user profitability, and data costs. (This is during the testing phase and will undergo significant changes.)
@@ -63,14 +63,14 @@ Perform equal frequency segmentation or segmentation according to specified spli
 1. A globally optimal segmentation solution can be given even for extremely skewed data.
 1. Support weighted series.
 1. Supports user-specified special values. Special values are grouped separately, and users can also combine multiple special values into one group through configuration.
-1. Users can specify how to handle None values. If not specified and the sequence contains null values, the null values will be automatically grouped together.
+1. Users can specify how to handle None values. If not specified and the sequence contains None values, the None values will be automatically grouped together.
 1. When a sequence is split using a specified split point, if the maximum or minimum value of the sequence exceeds the maximum or minimum value of the split point, the maximum and minimum values of the split point will be automatically extended.
 
 It is recommended to try using Cutter to replace the built-in equal frequency segmentation component of Python or Pandas.
     
 ### 4. Other modules
 There are also other modules that can significantly improve the accuracy and efficiency of data analysis and modeling:
-The rascpy.Impute package can handle data with multiple special values and null values (binary classification tasks). This solves the current problem of using Impute to treat special values as None or as normal values, which can result in information loss or render the model meaningless.
+The rascpy.Impute package can handle data with multiple special values and None values (binary classification tasks). This solves the current problem of using Impute to treat special values as None or as normal values, which can result in information loss or render the model meaningless.
 1. Provides high-precision, high-dimensional stratified sampling. This solves the current problem of reducing the discrepancy between training and test set metrics by compromising model performance due to low sampling precision. rascpy.Sampling can reduce the discrepancy between training and test set metrics by minimizing the differences in dataset distribution without compromising model performance.
 1. Provides automatic parameter tuning for xgboost. rascpy.Tree.auto_xgb differs from other automatic parameter tuning frameworks in that it can reduce the model variance while maintaining high training set metrics.
 1. Support scorecard and xgboost rejection inference.
@@ -174,8 +174,8 @@ only_base_feas = True
 ```
 
 #### Detailed description of all instructions
-[English instruction: learning_for_instruction_file_EN.txt](https://github.com/sifuHK/rasc/blob/main/2025.8.3/learning_for_instruction_file_EN.txt)
-[Chinese instruction description: learning_for_instruction_file_CHN.txt](https://gitee.com/sifuHK/rasc/blob/master/2025.8.3/learning_for_instruction_file_CHN.txt)
+[English all_instructions_detailed_desc.txt](https://github.com/sifuHK/rasc/blob/main/2025.8.3/all_instructions_detailed_desc.txt)  
+[中文 全部指令详细说明.txt](https://gitee.com/sifuHK/rasc/blob/master/2025.8.3/全部指令详细说明.txt)  
  
 ### Optimal binning example
 In the scorecard development example, rascpy.Bins.OptBin/OptBin_mp is automatically called through CardFlow.
@@ -269,7 +269,7 @@ proba_hat = predict_proba(clf_cands[0],X[vars_cands[0]],decimals=4)#Only the var
 Impute Example
 BCSpecValImpute can be used to handle special values and missing values in data for binary classification problems. It can handle special values and missing values for continuous, unordered categorical, and ordered categorical variables.
 BCSpecValImpute can simultaneously fill in empty values and transform special values.
-If the data contains both null values and special values, most models cannot handle them well (in a business-meaningful way). We recommend using rascpy.Impute.BCSpecValImpute to preprocess the data before training it in a binary classification model.
+If the data contains both None values and special values, most models cannot handle them well (in a business-meaningful way). We recommend using rascpy.Impute.BCSpecValImpute to preprocess the data before training it in a binary classification model.
 ``` Python
 from rascpy.Impute import BCSpecValImpute
 # Main parameter description
@@ -277,7 +277,7 @@ from rascpy.Impute import BCSpecValImpute
 # default_spec_value: The default special value of the variable that does not appear in spec_value. When the special value you configured does not exist in a certain variable, the configuration of the special value will be automatically ignored. This command is very convenient to use when there is a global unified special value in the data.
 # order_cate_vars: Specifies the ordered categorical variables in the data and gives the order of each category. ** represents a wildcard character; all unconfigured categories are merged into the wildcard character. Wildcards are well-suited for variables with long-tail distributions. If the order of a variable is set to None, lexicographic order is used.
 # unorder_cate_vars: Specifies the unordered categorical variables in the data. Unordered categories will be sorted according to the event rate. If the value is float, if the proportion of the category is less than the threshold, it will be merged into the wildcard category. If the value is None, there is no limit on the proportion (which may cause large fluctuations)
-# impute_None: Whether to fill in null values. Because some models can automatically handle null values, if you use such a model later, you can ignore null values when filling, and only need to handle special values. (Almost all models cannot directly handle data with both null values and special values)
+# impute_None: Whether to fill in None values. Because some models can automatically handle None values, if you use such a model later, you can ignore None values when filling, and only need to handle special values. (Almost all models cannot directly handle data with both None values and special values)
 bcsvi = BCSpecValImpute(spec_value={'x1':['{-999,-888}','{-1000,None}'],'x11':['{unknow}']},default_spec_value=['{-999}','{-1000}'],
 order_cate_vars={'x8':['v5','**','v4'],'x9':None},
 unorder_cate_vars={"x10":0.01,"x11":None},impute_None=True,cores=None)
@@ -355,5 +355,4 @@ not_rej_clf,rej_clf,syn_train,syn_val = auto_rej_xgb(train_X,train_y,val_X,val_y
 ## Contact Information
 Email: scoreconflow@gmail.com
 Email:scoreconflow@foxmail.com
-
 WeChat:SCF_04
