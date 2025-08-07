@@ -21,4 +21,4 @@ Expanded beyond scorecard development to address gaps in statistics and machine 
 
 
 
-##  Please refer to version-specific documents,tutorials and samples.
+##  Please refer to version-specific Documents,Tutorials and Samples.
