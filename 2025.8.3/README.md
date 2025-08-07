@@ -81,20 +81,20 @@ The rascpy.Impute package can handle data with multiple special values and None 
 ```Python
 from rascpy.ScoreCard import CardFlow
 if __name__ == '__main__':# Windows must write the main function, Linux and MacOS do not need to write the main function
-# Pass in the command file
-scf = CardFlow('./inst.txt')
-# There are 11 steps in total: 1. Read data, 2. Equal frequency binning, 3. Variable pre-filtering, 4. Monotonicity suggestion, 5. Optimal binning, 6. WOE conversion, 7. Variable filtering, 8. Modeling, 9. Generate scorecard, 10. Output model report, 11. Develop rejection inference scorecard
-scf.start(start_step=1,end_step=11)# will automatically give the score card + the score card for rejection inference
-
-# You can stop at any step, as follows:
-scf.start(start_step=1,end_step=10)#No scorecard will be developed for rejection inference
-scf.start(start_step=1,end_step=9)#No model report will be output
+    # Pass in the command file
+    scf = CardFlow('./inst.txt')
+    # There are 11 steps in total: 1. Read data, 2. Equal frequency binning, 3. Variable pre-filtering, 4. Monotonicity suggestion, 5. Optimal binning, 6. WOE conversion, 7. Variable filtering, 8. Modeling, 9. Generate scorecard, 10. Output model report, 11. Develop rejection inference scorecard
+    scf.start(start_step=1,end_step=11)# will automatically give the score card + the score card for rejection inference
     
-# If the results of the run have not been modified, there is no need to run again. As shown below, steps 1-4 that have been run will be automatically loaded (will not be affected by restarting the computer)
-scf.start(start_step=5,end_step=8)
-    
-# You can also omit start_step and end_step, abbreviated as:
-scf.start(1,10)
+    # You can stop at any step, as follows:
+    scf.start(start_step=1,end_step=10)#No scorecard will be developed for rejection inference
+    scf.start(start_step=1,end_step=9)#No model report will be output
+        
+    # If the results of the run have not been modified, there is no need to run again. As shown below, steps 1-4 that have been run will be automatically loaded (will not be affected by restarting the computer)
+    scf.start(start_step=5,end_step=8)
+        
+    # You can also omit start_step and end_step, abbreviated as:
+    scf.start(1,10)
 ```
 After each step of scf.start is completed, a lot of useful intermediate data will be retained. This data will be saved in the work_space specified in inst.txt as pkl. Users can manually load and access this data at any time. It can also be called through the CardFlow object instance. The intermediate results generated after each step is completed are:
 - step1: scf.datas
@@ -201,15 +201,15 @@ from rascpy.Bins import OptBin,OptBin_mp
 # cust_bins: User manually bins the variable
 # cores: The number of CPU cores used by multiple processes. None: All cores int: When it is greater than 1, it specifies the number of cores to be used. When it is less than 0, it specifies the number of cores reserved for the system, that is, all cores minus the specified number of cores. When it is equal to 1, it turns off multiple processes and uses a single process, which is equivalent to calling OptBin
 if __name__ == '__main__':# Windows must write the main function, Linux and MacOS do not need to write the main function
-optBins = OptBin_mp(X_dats,y_dats,mono={'x1':'L+','x2':'U'},default_mono='A',
-distr_min={'x1':0.05},default_distr_min=0.02,default_rate_gain_min=0.001,
-bin_cnt_max={'x2':5},default_bin_cnt_max=8,
-spec_value={'x1':['{-999,-888}','{-1000,None}']}, default_spec_value=['{-999,-888}','{-1000}'],
-spec_distr_min={'x1':{'{-1000,None}':0.01,'{-999,-888}':0.05},'x2':0.01},default_spec_distr_min=0.02,
-spec_comb_policy={'x2':'F','x3':'L'},default_spec_comb_policy='A',
-order_cate_vars={'x7':['v3','v1','v2'],'x8':['v5','**','v4'],'x9':None},
-unorder_cate_vars={"x10":0.01,"x11":None},no_wild_treat={'x10':'H','x11':'m'},default_no_wild_treat='M',
-cust_bins={'x4':['[1.0,4.0)','[4.0,9.0)','[9.0,9.0]','{-997}','{-999,-888}','{-1000,None}']},cores=-1)
+    optBins = OptBin_mp(X_dats,y_dats,mono={'x1':'L+','x2':'U'},default_mono='A',
+                        distr_min={'x1':0.05},default_distr_min=0.02,default_rate_gain_min=0.001,
+                        bin_cnt_max={'x2':5},default_bin_cnt_max=8,
+                        spec_value={'x1':['{-999,-888}','{-1000,None}']}, default_spec_value=['{-999,-888}','{-1000}'],
+                        spec_distr_min={'x1':{'{-1000,None}':0.01,'{-999,-888}':0.05},'x2':0.01},default_spec_distr_min=0.02,
+                        spec_comb_policy={'x2':'F','x3':'L'},default_spec_comb_policy='A',
+                        order_cate_vars={'x7':['v3','v1','v2'],'x8':['v5','**','v4'],'x9':None},
+                        unorder_cate_vars={"x10":0.01,"x11":None},no_wild_treat={'x10':'H','x11':'m'},default_no_wild_treat='M',
+                        cust_bins={'x4':['[1.0,4.0)','[4.0,9.0)','[9.0,9.0]','{-997}','{-999,-888}','{-1000,None}']},cores=-1)
 ```
 ### Bidirectional stepwise logistic regression example
 In the scorecard development example, rascpy.Reg_Step_Wise_MP.LogisticReg is automatically called through CardFlow.
@@ -237,8 +237,8 @@ y=pd.Series(y).loc[X.index]
 # del_reason: reason for deleting the variable
 # step_proc: Details of each round of stepwise regression
 if __name__ == '__main__':# Windows must write the main function, Linux and MacOS do not need to write the main function
-lr = LogisticReg(X,y,measure='roc_auc',pvalue_max=0.05,vif_max=3,corr_max=0.8,iter_num=20,results_save = 'test_logit.xlsx')
-in_vars,clf_final,clf_perf,clf_coef,del_reason,step_proc = lr.fit()
+    lr = LogisticReg(X,y,measure='roc_auc',pvalue_max=0.05,vif_max=3,corr_max=0.8,iter_num=20,results_save = 'test_logit.xlsx')
+    in_vars,clf_final,clf_perf,clf_coef,del_reason,step_proc = lr.fit()
     
 # Other important parameters
 # user_save_cols: variables that users are forced to enter into the model. A complex and reasonable mechanism is designed to handle conflicts between user_save_cols and commands such as pvalue_max, vif_max, and corr_max.
@@ -313,29 +313,29 @@ Method 1: Complete the normal scorecard and rejection inference scorecard simult
 ``` Python
 from rascpy.ScoreCard import CardFlow
 if __name__ == '__main__':# Windows must write the main function, Linux and MacOS do not need to write the main function
-# Pass in the command file
-scf = CardFlow('./inst.txt')
-scf.start(start_step=1,end_step=11)# will automatically generate standard scorecards and rejection inference scorecards
+    # Pass in the command file
+    scf = CardFlow('./inst.txt')
+    scf.start(start_step=1,end_step=11)# will automatically generate standard scorecards and rejection inference scorecards
 ```
 Method 2: Complete the standard scorecard first, then generate the rejection inference scorecard. This is suitable for those who have already generated the standard scorecard with rascpy and need to generate a rejection inference scorecard.
 ``` Python
 from rascpy.ScoreCard import CardFlow
 if __name__ == '__main__':
-# Pass in the command file
-scf = CardFlow('./inst.txt')
-scf.start(start_step=11,end_step=11)#If you have already run step 1 to step 10, you can set both start_step and end_step to 11 to generate a rejection inference scorecard.
+    # Pass in the command file
+    scf = CardFlow('./inst.txt')
+    scf.start(start_step=11,end_step=11)#If you have already run step 1 to step 10, you can set both start_step and end_step to 11 to generate a rejection inference scorecard.
 ```
 Method 3: Directly call the CardRej module. This is suitable for those who have developed a scorecard using other python packages and then use rascpy to generate a rejection inference scorecard.
 ``` Python
 from rascpy.ScoreCardRej import CardRej
 if __name__ == '__main__':
-# Main parameter description
-# init_clf: unbiased logistic regression model
-# init_optbins_stat_train: Unbiased bin statistics. Format: {'x1':pd.DataFrame(columns=['bin','woe'])}
-# datas: data passed in by the user. Format example: {'rejData':{'rej':pd.DataFrame(),'otherRej':pd.DataFrame()},'ootData':{'oot1':pd.DataFrame(),'oot2':pd.DataFrame()}}
-# inst_file: Instruction file. The instructions are the same as those in the 'Scorecard Development Example'. See "Detailed Instructions for All Instructions". If datas is empty, all data files under [DATA INST]:xx_data_file_path in the inst_file file will be automatically loaded. If datas is not empty, the configuration of [DATA INST]:xx_data_file_path will be ignored.
-cr = CardRej(init_clf,init_optbins_stat_train,datas=None,inst_file='inst.txt')
-cr.start()
+    # Main parameter description
+    # init_clf: unbiased logistic regression model
+    # init_optbins_stat_train: Unbiased bin statistics. Format: {'x1':pd.DataFrame(columns=['bin','woe'])}
+    # datas: data passed in by the user. Format example: {'rejData':{'rej':pd.DataFrame(),'otherRej':pd.DataFrame()},'ootData':{'oot1':pd.DataFrame(),'oot2':pd.DataFrame()}}
+    # inst_file: Instruction file. The instructions are the same as those in the 'Scorecard Development Example'. See "Detailed Instructions for All Instructions". If datas is empty, all data files under [DATA INST]:xx_data_file_path in the inst_file file will be automatically loaded. If datas is not empty, the configuration of [DATA INST]:xx_data_file_path will be ignored.
+    cr = CardRej(init_clf,init_optbins_stat_train,datas=None,inst_file='inst.txt')
+    cr.start()
 ```
 Refer to the intermediate data generated by the rejection inference in step 11 of the "Scorecard Development Example". The intermediate data is called by scf.rejInfer.xx in Method 1 and Method 2, and by cr.xx in Method 3.
     
