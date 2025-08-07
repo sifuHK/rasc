@@ -266,7 +266,7 @@ proba_hat = clf_cands[0].predict_proba(X)[:,1]#The columns of X need to complete
 from rascpy.Tool import predict_proba
 proba_hat = predict_proba(clf_cands[0],X[vars_cands[0]],decimals=4)#Only the variables to be input into the model need to be passed in, which is very convenient for online systems. And the returned proba_hat is a Series with the same row index as X.
 ```
-Impute Example
+### Impute Example
 BCSpecValImpute can be used to handle special values and missing values in data for binary classification problems. It can handle special values and missing values for continuous, unordered categorical, and ordered categorical variables.
 BCSpecValImpute can simultaneously fill in empty values and transform special values.
 If the data contains both None values and special values, most models cannot handle them well (in a business-meaningful way). We recommend using rascpy.Impute.BCSpecValImpute to preprocess the data before training it in a binary classification model.
@@ -356,4 +356,5 @@ not_rej_clf,rej_clf,syn_train,syn_val = auto_rej_xgb(train_X,train_y,val_X,val_y
 Email: scoreconflow@gmail.com
 Email:scoreconflow@foxmail.com
 WeChat:SCF_04
+
 
