@@ -17,6 +17,8 @@ Expanded beyond scorecard development to address gaps in statistics and machine 
   Reject inference  
 
 ## Install Latest
-pip install rascpy
+  pip install rascpy
+
+
 
 ##  Please refer to version-specific documents,tutorials and samples.
