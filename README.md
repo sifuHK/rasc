@@ -16,6 +16,7 @@ Expanded beyond scorecard development to address gaps in statistics and machine 
   Mixed-data-type imputation  
   Reject inference  
 
-
+## Install Latest
+pip install rascpy
 
 ##  Please refer to version-specific documents,tutorials and samples.
