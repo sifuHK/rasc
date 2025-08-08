@@ -1,49 +1,44 @@
-# RASC
-The RASC project has made some supplements and improvements to existing statistical methods in order to provide data analysts and modelers with a more accurate and easier-to-use algorithmic framework.
+#RASC
+The RASC project makes some supplements and improvements to existing statistical methods in order to provide data analysts and modelers with a more accurate and easier-to-use algorithmic framework.
 Project evolution process:
-- Phase 1 (ScoreConflow): Provides a "business instruction + unattended" scoring card model development method. The original intention of the RASC project is to provide more accurate algorithms and more labor-saving scoring card development tools.
-- Phase 2 (Risk Actuarial Score Card): Based on the previous phase, a risk actuarial score card is provided to build a model by comprehensively considering user default, user profit level, and data cost.  
-- Phase 3 (Risk Actuarial Statistics): This phase goes beyond scorecard development. It aims to improve the areas where statistics and machine learning fall short in actual risk measurement. Building on the previous phase, it adds features such as XGB automatic parameter search, high-dimensional stratified sampling, filling of mixed data types, and rejection inference.  
-
+- Phase 1 (ScoreConflow): The RASC provides a "business instruction + unattended" scoring card model development method. The original intention of the RASC project is to provide more accurate algorithms and more labor-saving scoring card development tools.
+- Phase 2 (Risk Actuarial Score Card): Based on the previous phase, a risk actuarial score card is provided to build a model by comprehensively considering user default probability, user profit level, and data cost.
+Phase 3 (Risk Actuarial Statistics): This phase goes beyond scorecard development. It aims to improve the areas where statistics and machine learning fall short in actual risk measurement. Building on the previous phase, it adds features such as XGB automatic parameters search, high-dimensional stratified sampling, filling mixed data types, and rejection inference.
 ## Resources
 [English Documents,Tutorials and Samples (Version = 2025.8.3)](https://github.com/sifuHK/rasc/tree/main/2025.8.3)   
 [中文文档、教程和示例 (版本 = 2025.8.3)](https://gitee.com/sifuHK/rasc/tree/master/2025.8.3)  
-
 ## Install
 pip install rascpy
-
-## Product Introduction
-Its main functions include:
+## Project Introduction
+Main Functions Include:
 1. Provide binning algorithms that support monotonic or U-shaped constraints.
 1. In addition to user-specified constraints, RASC can also automatically identify constraints (monotonic or U-shaped) applicable to the data based on the training and validation sets.
-1. Can handle multiple special values and None values at the same time.
-1. Provides a more accurate binning algorithm, resulting in a higher IV. Mathematically, this set of nodes is proven to be the global optimal node, regardless of constraints or even for categorical variables.
-1. Provides Python's two-way stepwise regression algorithm (including logistic regression and linear regression), and supports multiple constraints, such as coefficient signs, P-values, group variable number limits, and other variable selecting conditions.
-1. Provides a bidirectional stepwise regression algorithm with actuarial capabilities. This algorithm uses company profits as part of a loss function that considers the model's prediction accuracy, individual user profitability, and data costs. (This is during the testing phase and will undergo significant changes.)
+1. It can handle multiple special values and None values at the same time.
+1. Provide a more accurate binning algorithm, resulting in a higher IV. Mathematically, this set of split nodes is proven to be the global optimal node, regardless of constraints or even for categorical variables.
+1. Provide Python's two-way stepwise regression algorithm (including logistic regression and linear regression), and supports multiple constraints, such as coefficient signs, P-values, group variable number limits, and other variable selecting conditions.
+1. Provide a bidirectional stepwise regression algorithm with actuarial capabilities. This algorithm uses company profits as part of a loss function that considers the model's prediction accuracy, individual user profitability, and data costs. (This is during the testing phase and will undergo significant changes.)
 1. Provide a more convenient missing value filling function. Common missing value filling methods can only handle missing values, but cannot handle special values, especially in scenarios where the data contains both missing values and special values. Special values cannot be simply equated with missing values. Simply treating special values as missing values without considering the business scenario will lead to information loss. Special values will turn numerical data into a complex data type that mixes categorical and numerical types. Currently, no model can directly handle this type of data (although some models can produce results, they are not accurate and have no practical significance). This problem can be solved by using the Impute package provided by RASC. The transformed data can be directly fed into any model and meet practical business requirements.
-1. Provides high-precision, high-dimensional stratified sampling. The stratified sampling provided by machine learning is overly simplistic. When stratified sampling is performed solely based on the Y label, a phenomenon may occur: after the variables in the training and test sets are segmented with equal frequency according to the same nodes, the event rates of Y differ significantly. This makes it difficult to narrow the metric differences between the training and validation sets during modeling. Without high-precision, high-dimensional stratified sampling, this issue can only be addressed by reducing model performance to improve model generalization. Another phenomenon is that after binning, the binning results of the training and validation sets differ significantly, manifesting as significant differences in IV values. Without high-precision, high-dimensional stratified sampling, the only way to improve generalization is to increase the bin width. The stratified sampling method provided by RASC has been tested and shown to significantly mitigate this phenomenon, reducing the discrepancy between the training and validation sets without compromising model performance or binning IV. (Excessive disparity between datasets is often caused by inconsistencies in the high-dimensional joint distribution, but due to sampling precision limitations, this can only be treated as overfitting.)
-1. Provides automatic parameter tuning for xgboost. According to tests, models created with other parameter tuning frameworks often exhibit significant discrepancies between training and validation set metrics. However, the xgboost automatic parameter tuning framework provided by RASC minimizes the discrepancy between training and validation set metrics.
+1. Provide high-precision, high-dimensional stratified sampling. The stratified sampling provided by machine learning is overly simplistic. When stratified sampling is performed solely based on the Y label, a phenomenon may occur: after the variables in the training and test sets are segmented with equal frequency according to the same nodes, the event rates of Y differ significantly. This makes it difficult to narrow the metric differences between the training and validation sets during modeling. Without high-precision, high-dimensional stratified sampling, this issue can only be addressed by reducing model performance to improve model generalization. Another phenomenon is that after binning, the binning results of the training and validation sets differ significantly, manifesting as significant differences in IV values. Without high-precision, high-dimensional stratified sampling, the only way to improve generalization is to increase the bin width. The stratified sampling method provided by RASC has been tested and shown to significantly mitigate this phenomenon, reducing the discrepancy between the training and validation sets without compromising model performance or binning IV. (Excessive disparity between datasets is often caused by inconsistencies in the high-dimensional joint distribution, but due to sampling precision limitations, this can only be treated as overfitting.)
+1. Provide automatic parameter tuning for xgboost. According to tests, models created with other parameter tuning frameworks often exhibit significant discrepancies between training and validation set metrics. However, the xgboost automatic parameter tuning framework provided by RASC minimizes the discrepancy between training and validation set metrics.
 1. Support the rejection inference model of the scorecard.
 1. Support the rejection inference model of xgboost.
 1. Provide model report output function, users can easily generate Excel documents for model development reports.
-1. Provides batch beautification and export of DataFrame to Excel. The output format is similar to Excel pivot table with color scale.
+1. Provide batch beautification and export of DataFrame to Excel. The output format is similar to Excel pivot table with color scale.
 1. Support for automated modeling. The functions provided above can be called using traditional API methods, allowing users to assemble each module through programming to build models. Alternatively, unattended modeling can be achieved by using the AI instruction templates provided by RASC.
-
-## Introduction to main modules
+## Introduction To Main Modules
 ### 1.Bins
-The optimal split point calculated by Bins is a set of split points that maximizes IV with a mathematical proof.
-For categorical variables, including ordered and unordered categories, there is also a set of split points that can be mathematically proven to maximize IV.
+The optimal split nodes calculated by Bins is a set of split nodes that maximizes IV with a mathematical proof.
+For categorical variables, including ordered and unordered categories, there is also a set of split nodes that can be mathematically proven to maximize IV.
 Its main functions are:
-1. Find the split point that maximizes IV with or without constraints. Five constraint settings are supported: monotonic (automatically determines increasing or decreasing), monotonically decreasing, monotonically increasing, U-shaped (automatically determines convex or concave), and automatically set appropriate constraints (automatically determines monotonically decreasing, monotonically increasing, convex U-shaped, and concave U-shaped).
-1. For categorical variables with or without constraints, the global optimal split point can also be found to maximize IV.
+1. Find the split nodes that maximizes IV with or without constraints. Five constraint settings are supported: monotonic (automatically determines increasing or decreasing), monotonically decreasing, monotonically increasing, U-shaped (automatically determines convex or concave), and automatically set appropriate constraints (automatically determines monotonically decreasing, monotonically increasing, convex U-shaped, and concave U-shaped).
+1. For categorical variables with or without constraints, the global optimal split nodes can also be figure out to maximize IV.
 1. Use "Minimum difference in event rates between adjacent bins" instead of "Information Gain" or "Chi-Square Gain" to prevent the formation of bins with too small differences. This allows users to intuitively understand the size of the differences between bins. This feature is also supported for categorical variables.
 1. Do not replace the minimum value of the first bin with negative infinity, nor the maximum value of the last bin with positive infinity. This ensures that outliers are not masked by extending extreme values to infinity. RASC also provides a comprehensive mechanism to handle online values exceeding modeling boundaries. This resolves the common contradiction between the need to detect outliers as early as possible during data analysis and the need to mask them in online applications to prevent process bottlenecks (while still providing timely alerts).
 1. The concept of wildcards is introduced to solve the problem that the online values of categorical variables exceed the modeling value range.
 1. Support multi-process parallel computing.
 1. Support binning of weighted samples.
   
-In most cases, users do not need to interact directly with Bins components. However, RASC is designed to be pluggable, so advanced users can use Bins modules independently, just like any other Python module.
-    
+In most cases, users do not need to interact directly with Bins components. However, RASC is designed to be pluggable, so advanced users can use Bins modules independently, just like any other Python module.  
 ### 2.Reg_Step_Wise_MP
 It is a linear/logistic two-way stepwise regression implemented in Python, which adds the following features to the traditional two-way stepwise regression:
 1. When performing stepwise variable selection for logistic regression, AUC, KS, and LIFT metrics can be used instead of AIC and BIC. For some business scenarios, AUC and KS are more appropriate. For example, in ranking tasks, a model built using the KS metric uses fewer variables while maintaining the same KS, thereby reducing data costs.
@@ -55,7 +50,6 @@ It is a linear/logistic two-way stepwise regression implemented in Python, which
 1. Support actuarial calculations, using company profits as a loss function that takes into account the model's prediction accuracy, the profit level of a single user, and data costs (in the testing phase, there will be significant changes later)
 
 In most cases, users do not need to interact directly with the Reg_Step_Wise_MP component. However, RASC is designed to be pluggable, and advanced users can use the Reg_Step_Wise_MP module independently, just like any other Python module.
-    
 ### 3.Cutter
 Perform equal frequency segmentation or segmentation according to specified split points, which has the following enhancements over the built-in segmenters of Python or Pandas:
 1. A mathematically provable analytical solution with minimum global error.
@@ -68,15 +62,13 @@ Perform equal frequency segmentation or segmentation according to specified spli
 1. When a sequence is split using a specified split point, if the maximum or minimum value of the sequence exceeds the maximum or minimum value of the split point, the maximum and minimum values of the split point will be automatically extended.
 
 It is recommended to try using Cutter to replace the built-in equal frequency segmentation component of Python or Pandas.
-    
-### 4. Other modules
+### 4. Other Modules
 There are also other modules that can significantly improve the accuracy and efficiency of data analysis and modeling:
 The rascpy.Impute package can handle data with multiple special values and None values (binary classification tasks). This solves the current problem of using Impute to treat special values as None or as normal values, which can result in information loss or render the model meaningless.
 1. Provides high-precision, high-dimensional stratified sampling. This solves the current problem of reducing the discrepancy between training and test set metrics by compromising model performance due to low sampling precision. rascpy.Sampling can reduce the discrepancy between training and test set metrics by minimizing the differences in dataset distribution without compromising model performance.
 1. Provides automatic parameter tuning for xgboost. rascpy.Tree.auto_xgb differs from other automatic parameter tuning frameworks in that it can reduce the model variance while maintaining high training set metrics.
 1. Support scorecard and xgboost rejection inference.
-1. Users can choose to use AI instructions to automatically complete the scorecard development process without human supervision.
-
+1. In addition to manually calling the above modules, users can choose to use AI instructions to automatically complete modeling without human supervision.
 ## Usage Tutorial
 ### Scorecard Development Example
 ```Python
@@ -84,14 +76,14 @@ from rascpy.ScoreCard import CardFlow
 if __name__ == '__main__':# Windows must write the main function, Linux and MacOS do not need to write the main function
     # Pass in the command file
     scf = CardFlow('./inst.txt')
-    # There are 11 steps in total: 1. Read data, 2. Equal frequency binning, 3. Variable pre-filtering, 4. Monotonicity suggestion, 5. Optimal binning, 6. WOE conversion, 7. Variable filtering, 8. Modeling, 9. Generate scorecard, 10. Output model report, 11. Develop rejection inference scorecard
-    scf.start(start_step=1,end_step=11)# will automatically give the score card + the score card for rejection inference
+    # There are 11 steps in total: 1. Read datas, 2. Equal frequency binning, 3. Variable pre-filtering, 4. Monotonicity suggestion, 5. Optimal binning, 6. WOE conversion, 7. Variable filtering, 8. Modeling, 9. Generate scorecard, 10. Output model report, 11. Develop rejection inference scorecard
+    scf.start(start_step=1,end_step=11)# will automatically give the score card + the score card of rejection inference
     
     # You can stop at any step, as follows:
-    scf.start(start_step=1,end_step=10)#No scorecard will be developed for rejection inference
+    scf.start(start_step=1,end_step=10)#No scorecard of rejection inference will be developed 
     scf.start(start_step=1,end_step=9)#No model report will be output
         
-    # If the results of the run have not been modified, there is no need to run again. As shown below, steps 1-4 that have been run will be automatically loaded (will not be affected by restarting the computer)
+    # If the results of the run are not modified, there is no need to run again. As shown below, steps 1-4 that have been run will be automatically loaded (will not be affected by restarting the computer)
     scf.start(start_step=5,end_step=8)
         
     # You can also omit start_step and end_step, abbreviated as:
@@ -114,11 +106,10 @@ scf.rejInfer.train_optbins,scf.rejInfer.optbins_stat,scf.rejInfer.woes,
 scf.rejInfer.col_indices,scf.rejInfer.filtered_cols,scf.rejInfer.filters_middle_data,scf.rejInfer.used_cols
 scf.rejInfer.in_clf_cols,scf.rejInfer.clf_del_cols,scf.rejInfer.clf,scf.rejInfer.clf_perf,scf.rejInfer.clf_coef,scf.rejInfer.del_reason,scf.rejInfer.step_proc
 And store the newly synthesized dataset for rejection inference in scf.datas['rejData']['__synData']
-
 **load_step**
 ```Python
 # load_step is only loading without execution. If your Python program is closed after execution and needs to be read again, there is no need to run it again. Just load the previous result. Even if the user closes the Python kernel or restarts the computer, the user can easily restore the CardFlow instance and call the intermediate data.
-# load_step avoids the trouble of loading pkl to obtain intermediate data. CardFlow instance is equivalent to an intermediate data management container.
+# load_step avoids the trouble of loading pkl to obtain intermediate datas. CardFlow instance is equivalent to an intermediate data management container.
 # For example: load all steps 5 and before, and then call them through scf.xx
 from rascpy.ScoreCard import CardFlow
 scf = CardFlow('./inst.txt')
@@ -126,8 +117,7 @@ scf.start(load_step = 5)
 print(scf.datas)
 print(scf.train_optbins)
 ```
-  
-#### Example of a instruction file
+#### Example Of A Instruction File
 ```txt
 [PROJECT INST]
 model_name = Test
@@ -161,9 +151,9 @@ corr_max=0.7
 default_coef_sign = +
 
 [CARD INST]
-base_points=600
-base_event_rate=0.067
-pdo=80
+base_points=500
+base_event_rate=0.05
+pdo=50
 
 [REPORT INST]
 y_stat_group_cols = data_group
@@ -173,31 +163,29 @@ show_lift = 5,10,20
 reject_train_data_name = rej
 only_base_feas = True
 ```
-
-#### Detailed description of all instructions
+#### Detailed Description Of All Instructions
 [English all_instructions_detailed_desc.txt](https://github.com/sifuHK/rasc/blob/main/2025.8.3/all_instructions_detailed_desc.txt)  
-[中文 全部指令详细说明.txt](https://gitee.com/sifuHK/rasc/blob/master/2025.8.3/全部指令详细说明.txt)  
- 
-### Optimal binning example
+[中文 全部指令详细说明.txt](https://gitee.com/sifuHK/rasc/blob/master/2025.8.3/全部指令详细说明.txt)   
+### Optimal Binning Example
 In the scorecard development example, rascpy.Bins.OptBin/OptBin_mp is automatically called through CardFlow.
 Users can also manually call OptBin/OptBin_mp to build their own modeling solutions.
 ``` Python
 # OptBin_mp is a multi-process version of OptBin
 from rascpy.Bins import OptBin,OptBin_mp
 # Main parameter description
-# mono: Specifies the monotonicity constraint for each variable, such as: L+ is linearly increasing, U is automatically selected from positive U or negative U, and A is automatically selected from L+, L-, Uu, and Un based on the data. For the value range, see [BINS INST]:mono in "Detailed Description of All Instructions".
+# mono: Specifies the monotonicity constraint for each variable, such as: L+ is linearly increasing, U is automatically selecting from positive U or negative U, and A is automatically selecting from L+, L-, Uu, and Un based on the data. For the value range, see [BINS INST]:mono in "Detailed Description of All Instructions".
 # default_mono: Default monotonicity constraint for variables not set in mono
 # distr_min: Specify the minimum bin ratio of normal values except special values for each variable
 # default_distr_min: If the variable is not configured in distr_min, the default minimum binning ratio of the normal value
-# spec_value: specifies the special value of each variable. For the rules of writing special values, see [DATA INST]:spec_value in "Detailed description of all instructions".
-# default_spec_value: The default special value of the variable that does not appear in spec_value. When the special value you configured does not exist in a certain variable, the special value configuration will be automatically ignored. This command is very convenient to use when there is a global unified special value in the data.
-# spec_distr_min: The minimum percentage of each special value for each variable (when the type is a double-nested dict) or the minimum percentage of all special values for the variable (when the type is a single-layer dict). If the special value of a variable is too small, the special values are merged using the merging strategy specified by spec_comb_policy. The purpose of special value merging is to reduce abnormal results caused by special values with too small a percentage.
-# default_spec_distr_min: If the variable is not in spec_distr_min, the default special value ratio under the variable. The value can be a dict (to configure the default minimum ratio for each special value separately) or a number (all special values use the same default ratio)
+# spec_value: Specify the special value of each variable. For the rules of writing special values, see [DATA INST]:spec_value in "Detailed description of all instructions".
+# default_spec_value: The default special value of the variable that does not appear in spec_value. When the special value you configured does not exist in a certain variable, the special value configuration will be automatically ignored. This command is very convenient to use when there is global unified special values in the data.
+# spec_distr_min: The minimum percentage of each special value for each variable (when the type is a double-nested dict) or the minimum percentage of all special values for the variable (when the type is a single-layer dict). If the proportion of special value of a variable is too small, the special values are merged using the merging strategy specified by spec_comb_policy. The purpose of special value merging is to reduce abnormal results caused by special values with too small a percentage.
+# default_spec_distr_min: If the variable is not in spec_distr_min, the default special value minimum percentage under the variable. The value can be a dict (to configure the default minimum percentage for each special value separately) or a number (all special values use the same default percentage)
 # spec_comb_policy: Specifies the merging rule for special values for each variable. When the proportion of the special value is less than the threshold specified by spec_distr_min, the merging rule is used. For the value range, see [BINS INST]:spec_comb_policy in "Detailed Description of All Instructions".
 # default_spec_comb_policy: If the variable is not configured in spec_comb_policy, the default special value merging rule is used. If the variable has no special value, this parameter is automatically ignored.
 # order_cate_vars: Specifies the ordered categorical variables in the data and gives the order of each category. ** represents a wildcard character; all unconfigured categories are merged into the wildcard character. Wildcards are well-suited for variables with long-tail distributions. If the order of a variable is set to None, lexicographic order is used.
 # unorder_cate_vars: Specifies the unordered categorical variables in the data. Unordered categories will be sorted according to the event rate. Each variable corresponds to a float: if the proportion of the category is less than the threshold, it will be merged into the wildcard category. The corresponding value of the variable is None: no limit on the proportion (may cause large fluctuations)
-# no_wild_treat: When a categorical variable does not have a wildcard and an uncovered category appears in the data set, the category is handled. For the value range, see [CATE DATA INST]: no_wild_treat in "Detailed Description of All Instructions".
+# no_wild_treat: When a categorical variable does not have a wildcard and an uncovered category appears in the dataset, the method about how to treat the category. For the value range, see [CATE DATA INST]: no_wild_treat in "Detailed Description of All Instructions".
 # default_no_wild_treat: If there is no variable configured in no_wild_treat, the default treatment method for this category will be used if an uncovered category occurs.
 # cust_bins: User manually bins the variable
 # cores: The number of CPU cores used by multiple processes. None: All cores int: When it is greater than 1, it specifies the number of cores to be used. When it is less than 0, it specifies the number of cores reserved for the system, that is, all cores minus the specified number of cores. When it is equal to 1, it turns off multiple processes and uses a single process, which is equivalent to calling OptBin
@@ -212,9 +200,9 @@ if __name__ == '__main__':# Windows must write the main function, Linux and MacO
                         unorder_cate_vars={"x10":0.01,"x11":None},no_wild_treat={'x10':'H','x11':'m'},default_no_wild_treat='M',
                         cust_bins={'x4':['[1.0,4.0)','[4.0,9.0)','[9.0,9.0]','{-997}','{-999,-888}','{-1000,None}']},cores=-1)
 ```
-### Bidirectional stepwise logistic regression example
+### Bidirectional Stepwise Logistic Regression Example
 In the scorecard development example, rascpy.Reg_Step_Wise_MP.LogisticReg is automatically called through CardFlow.
-Users can also call LogisticReg to build their own modeling solutions.
+Users can also manually call LogisticReg to build their own modeling solutions.
 ``` Python
 from rascpy.Reg_Step_Wise_MP import LogisticReg
 # Generate data: There are 10 variables in total, of which the first 4 are useful variables, the middle 2 are redundant variables (there is collinearity with the first 4 variables), and the last 4 are useless variables. Add appropriate noise
@@ -225,42 +213,43 @@ X = pd.DataFrame(X,columns=['informative_1','informative_2','informative_3','inf
 y=pd.Series(y).loc[X.index]
 # Main parameter description
 # measure: A metric used to determine whether a parameter should be entered into the model. It supports aic, bic, roc_auc, ks, and other indicators.
-# pvalue_max: The pvalue of all model variables cannot exceed this value. rasc has designed a complex and reasonable mechanism to ensure that the pvalue of all model variables is not greater than this value.
-# vif_max: The vif of all input variables cannot exceed this value. rasc has designed a complex and reasonable mechanism to ensure that the vif of all input variables is not greater than this value.
-# corr_max: The pairwise correlation coefficients of all model variables cannot exceed this value. rasc has designed a complex and reasonable mechanism to ensure that the pairwise correlation coefficients of all model variables are not greater than this value.
+# pvalue_max: The pvalue of all variables in model cannot exceed this value. rasc designs a complex and reasonable mechanism to ensure that the pvalue of all variables in model is not greater than this value.
+# vif_max: The vif of all variables in model cannot exceed this value. rasc designs a complex and reasonable mechanism to ensure that the vif of all variables in model is not greater than this value.
+# corr_max: The pairwise correlation coefficients of all variables in model cannot exceed this value. rasc designs a complex and reasonable mechanism to ensure that the pairwise correlation coefficients of all variables in model are not greater than this value.
 # iter_num: number of rounds of stepwise regression
-# results_save: Output the model effect, information related to the model coefficients, reasons for deleting variables, and details of each round of stepwise regression into an Excel table
+# results_save: Output the model effect, information related to the model coefficients, reasons for deleting variables, and details of each round of stepwise regression into an Excel.
 # Return value description
 # in_vars: all variables entered into the model
 # clf_final: The final model returned
 # clf_perf: Model performance
 # clf_coef: information related to model coefficients
-# del_reason: reason for deleting the variable
+# del_reason: reason for deleting variable
 # step_proc: Details of each round of stepwise regression
 if __name__ == '__main__':# Windows must write the main function, Linux and MacOS do not need to write the main function
     lr = LogisticReg(X,y,measure='roc_auc',pvalue_max=0.05,vif_max=3,corr_max=0.8,iter_num=20,results_save = 'test_logit.xlsx')
     in_vars,clf_final,clf_perf,clf_coef,del_reason,step_proc = lr.fit()
     
 # Other important parameters
-# user_save_cols: variables that users are forced to enter into the model. A complex and reasonable mechanism is designed to handle conflicts between user_save_cols and commands such as pvalue_max, vif_max, and corr_max.
+# user_save_cols: variables that are forced to enter into the model. A complex and reasonable mechanism is designed to handle conflicts between user_save_cols and commands such as pvalue_max, vif_max, and corr_max.
 # coef_sign: dict, used to specify the coefficient sign of each variable
-# exc_group: Ensure that only one variable in the group can be modeled. Subsequent versions will allow users to set the number of variables in the group to be modeled or the cost limit. For its value rules, see [MODEL INST]:exc_group in "Detailed Description of All Instructions".
+# default_coef_sign:When the variable is not in coef_sign, the default value of the coefficient sign constraint for that variable
+# exc_group: Ensure that only one variable in the group can be entered into model. Subsequent versions will allow users to set the number of variables or the variables total cost limit in the group to be entered into model. For its value rules, see [MODEL INST]:exc_group in "Detailed Description of All Instructions".
 ```
-### XGB automatic parameter search example
+### XGB Automatic Parameter Search Example
 ``` Python
 from rascpy.Tree import auto_xgb
 # Parameter description
 # cands_num: auto_xgb will give a score to each hyperparameter tried during automatic parameter search. The higher the score, the more recommended the model trained with the hyperparameter is. Then the scores are sorted from high to low, and the models with the top cands_num scores are returned.
 # In actual use, the model with the highest score (i.e. clf_cands[0]) is the best model in most cases. However, users can still select their favorite model from the candidate models clf_cands[n] according to their preferences.
 # cost_time: The running time of auto_xgb. Because the essence of parameter search is a combinatorial explosion, the goal of any algorithm is to find the most likely optimal set of hyperparameters within a limited time. Therefore, the longer cost_time is, the more likely it is to find the optimal set of hyperparameters.
-# However, in actual use, the author has found that setting cost_time to 3-5 minutes has yielded the optimal model for most cases. Setting it longer generally fails to yield a higher-scoring model. If the user is dissatisfied with the model, they can try increasing cost_time, but increasing it to more than 8 minutes is not recommended and will likely be ineffective.
-# If the user is not satisfied with the bias or variance of the model, the best approach is not to increase cost_time, but to try using a more accurate sampling method, such as rascpy.Impute import BCSpecValImpute
+# However, in actual use, the author find that setting cost_time to 3-5 minutes is enough to yield the optimal model for most cases. Setting it longer generally fails to yield a higher-scoring model. If the user is dissatisfied with the model, they can try increasing cost_time, but increasing it to more than 8 minutes is not recommended and will likely be ineffective.
+# If the user is not satisfied with the bias or variance of the model, the best approach is not to increase cost_time, but to try using a more accurate sampling method, such as rascpy.Impute.BCSpecValImpute
 # Return value description
 # perf_cands: list. Metrics of all candidate models. Each metric contains three pieces of information: train_ks(train_auc), val_ks(val_auc), |train - val| (the absolute value of the difference between the training set and the validation set)
 # params_cands: list. Hyperparameters of all candidate models
 # clf_cands: list. All candidate models
-# vars_cands: list. All candidate model input variables
-# Note: The indexes of these 4 return values are relative. If the user decides to use the clf_cands[0] model, he can view the model's metrics through perf_cands[0], the model's hyperparameters through params_cands[0], and the model's input variables through vars_cands[0].
+# vars_cands: list. All candidate model input variables 
+# Note: The indexes of these four return values are relative. If the user decides to use the clf_cands[0] model, he can view the model's metrics through perf_cands[0], the model's hyperparameters through params_cands[0], and the model's input variables through vars_cands[0].
 perf_cands,params_cands,clf_cands,vars_cands = auto_xgb(train_X,train_y,val_X,val_y,metric='ks',cost_time=60*5,cands_num=5)
 proba_hat = clf_cands[0].predict_proba(X)[:,1]#The columns of X need to completely correspond to the columns during training. Even if a column is not entered into the model, it must be passed into the predict_proba method.
 # When making predictions, you can also try to use the more convenient predict_proba
@@ -293,21 +282,20 @@ print(bcsvi.impute_values)
 #From the results, we can see that the special value -999 of the numeric variable x1 is filled with 2, and the empty value is filled with 0, etc. The special value 'unknow' of the categorical variable x11 is filled with A
 #If the key corresponding to a variable name is not found in the first-level dict, it means that the variable has no special value in the training set and does not need to be filled. (However, it is necessary to avoid the situation where special values exist in other datasets)
 ```
-### High-dimensional stratified sampling example
-One of the most important evaluation criteria for the effectiveness of a high-dimensional stratified sampling algorithm is whether the joint distribution of **each** x variable and y can remain consistent in each data set after sampling.
-If the data itself can be divided into multiple groups along different dimensions, then it is also required that the joint distribution of **each** x variable and y can remain consistent in each cross-grouping in each data set after sampling.
-rascpy provides the Sampling.split_cls algorithm, which is designed for high-precision sampling of binary classification problems. Compared with multiple sampling algorithms, it shows good consistency in joint distribution, regardless of whether the data contains groups. This is especially true for the x variable, which has a strong predictive effect.
+### High-Dimensional Stratified Sampling Example
+One of the most important evaluation criteria for the effectiveness of a high-dimensional stratified sampling algorithm is whether the joint distribution of **each** x variable and y can remain consistent in each dataset after sampling.
+If the data itself can be divided into multiple groups, then it is also required that the joint distribution of **each** x variable and y can remain consistent in each group in each dataset after sampling.
+rascpy provides the rascpy.Sampling.split_cls algorithm, which is designed for high-precision sampling of binary classification problems. Compared with some sampling algorithms, it shows good consistency in joint distribution, regardless of whether the data contains groups. This is especially true for the x variable, which has a strong predictive effect.
 ``` Python
 from rascpy.Sampling import split_cls
 # Main parameter description
-# dat: data set dataframe
+# dat: dataframe dataset 
 # y:y column name of the label
 # test_size: sampling ratio
 # w: column name of weight
 # groups: data grouping fields
 train,test = split_cls(dat,y='y',test_size=0.3,w='weight',groups=['c1','c2'],random_state=0)
 ```
-   
 ### Scorecard Rejection Inference Model
 There are three methods for developing scorecard rejection inference models. Users can choose any method based on their own situation.
 Method 1: Complete the normal scorecard and rejection inference scorecard simultaneously. Suitable for developing scorecards from scratch
@@ -339,7 +327,6 @@ if __name__ == '__main__':
     cr.start()
 ```
 Refer to the intermediate data generated by the rejection inference in step 11 of the "Scorecard Development Example". The intermediate data is called by scf.rejInfer.xx in Method 1 and Method 2, and by cr.xx in Method 3.
-    
 ### Tree Rejection Inference Model
 ``` Python
 from rascpy.TreeRej import auto_rej_xgb
@@ -357,12 +344,3 @@ not_rej_clf,rej_clf,syn_train,syn_val = auto_rej_xgb(train_X,train_y,val_X,val_y
 Email: scoreconflow@gmail.com
 Email:scoreconflow@foxmail.com
 WeChat:SCF_04
-
-
-
-
-
-
-
-
-
