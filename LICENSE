@@ -1,4 +1,4 @@
-MIT With Conditions License 
+MIT License With Condition
 
 Copyright (c) 2025 SIFU
 
@@ -8,13 +8,10 @@ in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
-
-* Encapsulating this Software as a part of a web service for a third party to call through the Internet without the authorization of the author constitutes copyright infringement.
-
-* Decompiling any file within the Software Software shall be deemed infringement.
-
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
+Added a condition By SIFU
+* Encapsulating this Software as a part of a web service for a third party to call through the Internet without the authorization of the author constitutes copyright infringement.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
