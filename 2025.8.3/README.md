@@ -34,9 +34,10 @@ Its main functions are:
 1. For categorical variables with or without constraints, the global optimal split nodes can also be figure out to maximize IV.
 1. Use "Minimum difference in event rates between adjacent bins" instead of "Information Gain" or "Chi-Square Gain" to prevent the formation of bins with too small differences. This allows users to intuitively understand the size of the differences between bins. This feature is also supported for categorical variables.
 1. Do not replace the minimum value of the first bin with negative infinity, nor the maximum value of the last bin with positive infinity. This ensures that outliers are not masked by extending extreme values to infinity. RASC also provides a comprehensive mechanism to handle online values exceeding modeling boundaries. This resolves the common contradiction between the need to detect outliers as early as possible during data analysis and the need to mask them in online applications to prevent process bottlenecks (while still providing timely alerts).
-1. The concept of wildcards is introduced to solve the problem that the online values of categorical variables exceed the modeling value range.
-1. Support multi-process parallel computing.
+1. The concept of wildcards is introduced to solve the problem that the online values of categorical variables exceed the modeling value range.  
+1. Support multi-process parallel computing.  
 1. Support binning of weighted samples.
+1. Support for left closed and right open binning.  
   
 In most cases, users do not need to interact directly with Bins components. However, RASC is designed to be pluggable, so advanced users can use Bins modules independently, just like any other Python module.  
 ### 2.Reg_Step_Wise_MP
@@ -344,3 +345,4 @@ not_rej_clf,rej_clf,syn_train,syn_val = auto_rej_xgb(train_X,train_y,val_X,val_y
 Email: scoreconflow@gmail.com
 Email:scoreconflow@foxmail.com
 WeChat:SCF_04
+
