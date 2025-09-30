@@ -25,5 +25,5 @@ Expanded beyond scorecard development to address gaps in statistics and machine 
 ##  Please refer to version-specific Documents,Tutorials and Samples.
 
 All Versions   
-[2025.10.1](https://github.com/sifuHK/rasc/tree/main/2025.10.2)  
+[2025.10.2](https://github.com/sifuHK/rasc/tree/main/2025.10.2)  
 [2025.8.24](https://github.com/sifuHK/rasc/tree/main/2025.8.24)  
