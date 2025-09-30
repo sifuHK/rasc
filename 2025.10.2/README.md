@@ -359,6 +359,6 @@ not_rej_clf,rej_clf,syn_train,syn_val = auto_rej_xgb(train_X,train_y,val_X,val_y
 1. Manual switch: Manual switch by modifying xx/Lib/site-packages/rascpy/Lan.py
 1. Currently supports Chinese and English. Users can expand their own language and switch manually
 ## Contact Information
-Email: scoreconflow@gmail.com
-Email:scoreconflow@foxmail.com
+Email: scoreconflow@gmail.com  
+Email:scoreconflow@foxmail.com  
 WeChat:SCF_04
