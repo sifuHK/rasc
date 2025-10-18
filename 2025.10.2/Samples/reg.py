@@ -6,35 +6,47 @@ import pandas as pd
 
 def get_X_y(target_type,n_samples=2000,random_state=0):
     if target_type == 'logistic':
-        # 生成二分类问题的数据
-        # 共生成10个自变量，其中第1-4自变量是有信息的。第5，6自变量与前4个是冗余的，7-10自变量是无信息的。
-        # class_sep两个分类分散程度，数字越大越容易分类。
+        '''
+        Generate data for a binary classification problem.
+        A total of 10 independent variables are generated. Variables 1-4 are informative. Variables 5 and 6 are redundant with the first four. Variables 7-10 are uninformative.
+        class_sep specifies the degree of separation between the two classes. A higher value indicates easier classification.
+        '''
         X, y = make_classification(n_samples=n_samples,n_features=10,n_informative=4,n_redundant=2,shuffle=False,random_state=random_state,class_sep=1)
-        # 将生成的X转换成DataFrame（StepwiseRegressionSKLearn只支持DataFrame类型的X），并按照自变量的特征贡献度命名它们。
+        '''
+        Convert the generated X into DataFrame (StepwiseRegressionSKLearn only supports X of DataFrame type) and name them according to the feature contribution of the independent variables
+        '''
         X = pd.DataFrame(X,columns=['informative_1','informative_2','informative_3','informative_4','redundant_1','redundant_2','useless_1','useless_2','useless_3','useless_4']).sample(frac=1)
-        # 将生成的y转换成Series（StepwiseRegressionSKLearn只支持Serie类型s的y）
+        '''
+        Convert the generated y into a Series (StepwiseRegressionSKLearn only supports y of type Series)
+        '''
         y=pd.Series(y).loc[X.index]
         
     if target_type == 'linear':
-        # 生成回归问题的数据
-        # 共生成10个自变量，其中1-6自变量是有信息的，他们的秩大致为4，即6个变量之间存在一定相关性。而7-10自变量是无信息的。
-        # noise:加入适当噪音
+        '''
+        Generate data for the regression problem
+        Generate 10 independent variables. Variables 1-6 are informative, with a rank of approximately 4, indicating a correlation between the six variables. Variables 7-10 are uninformative.
+        Noise: Add appropriate noise.
+        '''
         X, y = make_regression(n_samples=n_samples,n_features=10,n_informative=6,effective_rank=4,noise=5,shuffle=False,random_state=random_state)
-        # 将生成的X转换成DataFrame（StepwiseRegressionSKLearn只支持DataFrame类型的X），并按照自变量的特征贡献度命名它们。
+        '''
+        Convert the generated X into a DataFrame (StepwiseRegressionSKLearn only supports X of DataFrame type) and name them according to the feature contribution of the independent variables.
+        '''
         X = pd.DataFrame(X,columns=['informative_1','informative_2','informative_3','informative_4','informative_5','informative_6','useless_1','useless_2','useless_3','useless_4']).sample(frac=1)
-        # 将生成的y转换成Series（StepwiseRegressionSKLearn只支持Serie类型s的y）
+        '''
+        Convert the generated y into a Series (StepwiseRegressionSKLearn only supports y of type Series)
+        '''
         y=pd.Series(y).loc[X.index]
     return X, y
     
 def test_logit(X,y):
-    #将详细建模过程与结果输出到logit.xlsx
+    # Output the detailed modeling process and results to logit.xlsx
     lr  =  LogisticReg(measure='aic',results_save='logit.xlsx')
     model = lr.fit(X,y)
     return model
 
    
 def test_linear(X,y):
-    #指定pvalue的阈值
+    # Specifying a pvalue threshold
     model  =  LinearReg(pvalue_max=0.01)
     model = model.fit(X,y)
     return model
@@ -44,19 +56,19 @@ if __name__ == '__main__':
     clf  = test_logit(X_logit,y_logit)
     '''
     output
-    第1轮：本轮增加变量informative_2
-    第1轮：当前模型性能:aic = 2501.8706729621467
-    第1轮：当前入模变量:['informative_2']
-    第1轮完成。当前入模变量数量：1
-    第2轮：本轮增加变量informative_3
-    第2轮：当前模型性能:aic = 2447.347502147151
-    第2轮：当前入模变量:['informative_2', 'informative_3']
-    第2轮完成。当前入模变量数量：2
-    第3轮：本轮增加变量informative_1
-    第3轮：当前模型性能:aic = 2442.8980757696663
-    第3轮：当前入模变量:['informative_2', 'informative_3', 'informative_1']
-    第3轮完成。当前入模变量数量：3
-    第4轮：在满足使用者所设置条件的前提下，已经不能通过增加或删除变量来进一步提升模型的指标，建模结束。入模变量数量：3
+    Round 1: round increase variable informative_2
+    Round 1: Current model performance :aic = 2501.870672962147
+    Round 1: current input variable :['informative_2']
+    Round 1 complete.Number of current input variables:1
+    Round 2: round increase variable informative_3
+    Round 2: Current model performance :aic = 2447.3475021471504
+    Round 2: current input variable :['informative_2', 'informative_3']
+    Round 2 complete.Number of current input variables:2
+    Round 3: round increase variable informative_1
+    Round 3: Current model performance :aic = 2442.898075769667
+    Round 3: current input variable :['informative_2', 'informative_3', 'informative_1']
+    Round 3 complete.Number of current input variables:3
+    Round 4: under the premise of meeting the conditions set by the user, the index of the model cannot be further improved by adding or deleting variables, the modeling ends.The count of variables in model:3. 
     '''
     print(clf.predict_proba(X_logit))
     
@@ -64,22 +76,22 @@ if __name__ == '__main__':
     lin= test_linear(X_linear,y_linear)
     '''
     output
-    第1轮：本轮增加变量informative_6
-    第1轮：当前模型性能:r2 = 0.0264
-    第1轮：当前入模变量:['informative_6']
-    第1轮完成。当前入模变量数量：1
-    第2轮：本轮增加变量informative_1
-    第2轮：当前模型性能:r2 = 0.0403
-    第2轮：当前入模变量:['informative_6', 'informative_1']
-    第2轮完成。当前入模变量数量：2
-    第3轮：本轮增加变量informative_2
-    第3轮：当前模型性能:r2 = 0.0576
-    第3轮：当前入模变量:['informative_6', 'informative_1', 'informative_2']
-    第3轮完成。当前入模变量数量：3
-    第4轮：本轮增加变量informative_3
-    第4轮：当前模型性能:r2 = 0.0664
-    第4轮：当前入模变量:['informative_6', 'informative_1', 'informative_2', 'informative_3']
-    第4轮完成。当前入模变量数量：4
-    第5轮：在满足使用者所设置条件的前提下，已经不能通过增加或删除变量来进一步提升模型的指标，建模结束。入模变量数量：4
+    Round 1: round increase variable informative_6
+    Round 1: Current model performance :r2 = 0.0264
+    Round 1: current input variable :['informative_6']
+    Round 1 complete.Number of current input variables:1
+    Round 2: round increase variable informative_1
+    Round 2: Current model performance :r2 = 0.0403
+    Round 2: current input variable :['informative_6', 'informative_1']
+    Round 2 complete.Number of current input variables:2
+    Round 3: round increase variable informative_2
+    Round 3: Current model performance :r2 = 0.0576
+    Round 3: current input variable :['informative_6', 'informative_1', 'informative_2']
+    Round 3 complete.Number of current input variables:3
+    Round 4: round increase variable informative_3
+    Round 4: Current model performance :r2 = 0.0664
+    Round 4: current input variable :['informative_6', 'informative_1', 'informative_2', 'informative_3']
+    Round 4 complete.Number of current input variables:4
+    Round 5: under the premise of meeting the conditions set by the user, the index of the model cannot be further improved by adding or deleting variables, the modeling ends.The count of variables in model:4. 
     '''
     print(lin.predict(X_linear))
