@@ -18,12 +18,13 @@ Expanded beyond scorecard development to address gaps in statistics and machine 
   Reject inference  
 
 ## Install Latest
-  pip install rascpy
+  pip install --upgrade rascpy
 
 
 
 ##  Please refer to version-specific Documents,Tutorials and Samples.
 
 All Versions   
+[2025.12.16](https://github.com/sifuHK/rasc/tree/main/2025.12.16)   
 [2025.11.11](https://github.com/sifuHK/rasc/tree/main/2025.11.11)  
 [2025.8.24](https://github.com/sifuHK/rasc/tree/main/2025.8.24)  
