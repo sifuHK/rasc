@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Nov 21 10:42:07 2025
-
-@author: wangwenhao
-"""
 
 import pandas as pd
 
@@ -27,5 +22,6 @@ dats['train']=(train_dat.y,train_hat,train_dat.sample_weight)
 dats['val']=(valid_dat.y,valid_hat,valid_dat.sample_weight)
 # (datas,target_label=None,cut_data_name=None,wide=0.05,thin=0.01,thin_head=10,lift=None,score_reverse=True,writer=None,sheet_name=lan['Performance of the model'],filePath=None):
 _=write_performance(dats,lift=(5,10,20),wide=0.1,thin=None,filePath='./perf_report.xlsx')
+
 
 
